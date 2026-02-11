@@ -5,4 +5,21 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  build: {
+    chunkSizeWarningLimit: 1000, // KB (default 500)
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          firebase: [
+            "firebase/app",
+            "firebase/auth",
+            "firebase/firestore",
+            "firebase/database",
+            "firebase/storage",
+          ],
+          react: ["react", "react-dom", "react-router-dom"],
+        },
+      },
+    },
+  },
 });
