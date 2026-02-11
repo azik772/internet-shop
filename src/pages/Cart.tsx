@@ -55,7 +55,7 @@ const Cart = () => {
   async function getCartItems(id: string) {
     const cartRef = collection(db, "cart");
     const q = query(cartRef, where("userId", "==", id));
-    const snapshot = await getDocs(cartRef);
+    const snapshot = await getDocs(q);
     const items = snapshot.docs.map(
       (doc) =>
         ({
