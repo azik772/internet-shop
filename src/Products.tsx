@@ -103,7 +103,6 @@ const Products = ({ search }: Props) => {
         </div>
       </div>
 
-      {/* Products Section */}
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center tracking-tight">
           Barcha Mahsulotlar
@@ -116,20 +115,17 @@ const Products = ({ search }: Props) => {
                 key={i}
                 className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col"
               >
-                {/* Image */}
                 <div className="relative overflow-hidden bg-gray-100">
                   <img
                     className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500"
                     src={itm.img}
                     alt={itm.name}
                   />
-                  {/* Category Badge */}
                   <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs font-medium text-gray-600 px-2.5 py-1 rounded-full shadow-sm">
                     {itm.category}
                   </span>
                 </div>
 
-                {/* Info */}
                 <div className="flex flex-col flex-1 p-4 gap-2">
                   <h5 className="font-semibold text-gray-800 text-sm leading-snug line-clamp-2">
                     {itm.name}
