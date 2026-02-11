@@ -29,3 +29,5 @@ export const auth = getAuth(app);
 export const google = new GoogleAuthProvider();
 export const rtdb = getDatabase(app);
 export const storage = getStorage(app);
+console.log("API KEY:", import.meta.env.VITE_API_KEY);
+console.log("PROJECT ID:", import.meta.env.VITE_PROJECT_ID);
