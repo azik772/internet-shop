@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import type { Product } from "./Home";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase.config";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { auth, db } from "./firebase.config";
+import { useNavigate } from "react-router-dom";
 interface Props {
   search: string;
 }
 const Products = ({ search }: Props) => {
+  const navigate = useNavigate();
   useEffect(() => {
     getProducts();
   }, []);
@@ -20,6 +22,123 @@ const Products = ({ search }: Props) => {
     setMinprice("");
     setMaxprice("");
     setTartib("");
+  }
+  async function addtocart(i: number) {
+    const product = visibleProducts[i];
+
+    // User ID olish
+    let userId: string | null = null;
+
+    // Admin tekshirish
+    const localUser = localStorage.getItem("user");
+    if (localUser) {
+      const userData = JSON.parse(localUser);
+      if (userData.email === "azizbeknarzullayevo1o@gmail.com") {
+        userId = "admin";
+      }
+    }
+
+    // Firebase user
+    if (!userId && auth.currentUser) {
+      userId = auth.currentUser.uid;
+    }
+
+    if (!userId) {
+      alert("⚠️ Avval tizimga kiring!");
+      return;
+    }
+
+    try {
+      const cartRef = collection(db, "cart");
+      await addDoc(cartRef, {
+        userId: userId,
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        img: product.img,
+        category: product.category,
+        desc: product.desc,
+        quantity: 1,
+        addedAt: new Date().toISOString(),
+      });
+
+      alert(`✅ ${product.name} savatga qo'shildi!`);
+    } catch (error) {
+      console.error("❌ Xatolik:", error);
+    }
+    navigate("/cart")
+  }
+
+  // const addtocart = (i: number) => {
+  //   const product = visibleProducts[i];
+  //   addDoc(collection(db, "cart"), {
+  //     name: product.name,
+  //     price: product.price,
+  //     img: product.img,
+  //     category: product.category,
+  //     desc: product.desc,
+  //     quantity: 1,
+  //     addedAt: new Date().toISOString(),
+  //   });
+
+  //   alert(`✅ ${product.name} savatga qo'shildi!`);
+
+  //   navigate("/cart");
+  // };
+  // const addtolike = (i: number) => {
+  //   const product = visibleProducts[i];
+  //   addDoc(collection(db, "like"), {
+  //     name: product.name,
+  //     price: product.price,
+  //     img: product.img,
+  //     category: product.category,
+  //     desc: product.desc,
+  //     addedAt: new Date().toISOString(),
+  //   });
+  //   alert(`✅ ${product.name}  yoqtirildi!`);
+
+  //   navigate("/like");
+  // };
+  async function addToLikes(i: number) {
+    const product = visibleProducts[i];
+
+    let userId: string | null = null;
+
+    const localUser = localStorage.getItem("user");
+    if (localUser) {
+      const userData = JSON.parse(localUser);
+      if (userData.email === "azizbeknarzullayevo1o@gmail.com") {
+        userId = "admin";
+      }
+    }
+
+    if (!userId && auth.currentUser) {
+      userId = auth.currentUser.uid;
+    }
+
+    if (!userId) {
+      alert("⚠️ Avval tizimga kiring!");
+      return;
+    }
+
+    try {
+      const likesRef = collection(db, "likes");
+      await addDoc(likesRef, {
+        userId: userId,
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        img: product.img,
+        category: product.category,
+        desc: product.desc,
+        addedAt: new Date().toISOString(),
+      });
+
+      alert(`❤️ ${product.name} yoqtirildi!`);
+    } catch (error) {
+      console.error("❌ Xatolik:", error);
+    }
+    navigate("/like")
   }
 
   function getProducts() {
@@ -40,12 +159,8 @@ const Products = ({ search }: Props) => {
         : true,
     )
     .filter((itm) => (category ? itm.category === category : true))
-    .filter((itm) =>
-      minPrice !== "" ? itm.price >= minPrice : true,
-    )
-    .filter((itm) =>
-      maxPrice !== "" ? itm.price <= maxPrice : true,
-    )
+    .filter((itm) => (minPrice !== "" ? itm.price >= minPrice : true))
+    .filter((itm) => (maxPrice !== "" ? itm.price <= maxPrice : true))
     .sort((a, b) => {
       if (tartib === "up-down") return b.price - a.price;
       if (tartib === "down-up") return a.price - b.price;
@@ -61,9 +176,7 @@ const Products = ({ search }: Props) => {
             onChange={(e) => setCategory(e.target.value)}
             className="appearance-none bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-xl px-4 py-2.5 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer transition"
           >
-            <option value="" >
-              Barcha
-            </option>
+            <option value="">Barcha</option>
             <option value="Mobil qurilma">📱 Mobil Qurilma</option>
             <option value="Kiyim">👕 Kiyim</option>
             <option value="Oziq-Ovqat">🥗 Oziq-Ovqat</option>
@@ -138,13 +251,18 @@ const Products = ({ search }: Props) => {
                   </p>
                   <p className="text-xs text-gray-500">{itm.date}</p>
 
-                  {/* Actions */}
                   <div className="flex gap-2 mt-2">
-                    <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-100 hover:bg-red-50 hover:border-red-200 transition text-lg">
+                    <button
+                      className="w-10 h-10 flex items-center justify-center rounded-2 border border-gray-100 hover:bg-red-50 hover:border-red-200 transition text-lg"
+                      onClick={() => addToLikes(i)}
+                    >
                       ❤️
                     </button>
-                    <button className="flex-1 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-sm font-medium py-2.5 rounded-xl transition-all duration-200">
-                      Add to Cart
+                    <button
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-sm font-medium py-2.5 rounded-2 transition-all duration-200"
+                      onClick={() => addtocart(i)}
+                    >
+                      Sotib Olish
                     </button>
                   </div>
                 </div>

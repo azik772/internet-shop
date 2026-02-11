@@ -104,17 +104,7 @@ const SignUp = () => {
         </p>
    
 
-      {/* <select
-        className="form-control mb-3 h-[45px] sm:h-[50px]"
-        onChange={(e) => props.getRole(e.target.value)}
-        defaultValue=""
-      >
-        <option disabled value="">
-          Choose Role
-        </option>
-        <option value="User">User</option>
-        <option value="Teacher">Teacher</option>
-      </select> */}
+   
 
       <button onClick={signUser} className="btn btn-dark w-full py-2 sm:py-3">
         Sign Up

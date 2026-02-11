@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import type { ChatM } from "./pages/Chat";
 import { onValue, ref } from "firebase/database";
 export interface Product {
+  id:string,
   img: string;
   name: string;
   price: number;
@@ -23,6 +24,7 @@ const Home = () => {
   const [imagePreview, setImagePreview] = useState<string>("");
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product>({
+    id:"",
     img: "",
     name: "",
     price: 0,
@@ -52,6 +54,7 @@ const Home = () => {
     alert("Mahsulot muvaffaqiyatli qo'shildi!");
 
     setProduct({
+      id:"",
       img: "",
       name: "",
       price: 0,

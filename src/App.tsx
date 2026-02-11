@@ -9,6 +9,8 @@ import Home from "./Home";
 import Products from "./Products";
 import Chat from "./pages/Chat";
 import { useState } from "react";
+import Cart from "./pages/Cart";
+import Like from "./pages/Like";
 export interface User {
   email: string;
   password: string;
@@ -52,6 +54,12 @@ const App = () => {
             <Link className="btn btn-warning btn-sm text-white" to={"/chat"}>
               Chat
             </Link>
+            <Link to={"/cart"} className="text-decoration-none">
+              🛒
+            </Link>
+            <Link to={"/like"} className="text-decoration-none">
+              ❤️
+            </Link>
           </div>
 
           <button
@@ -92,6 +100,20 @@ const App = () => {
               >
                 Chat
               </Link>
+              <Link
+                onClick={() => setMenuOpen(false)}
+                className="btn btn-success w-full text-center text-white"
+                to={"/cart"}
+              >
+                🛒
+              </Link>
+              <Link
+                onClick={() => setMenuOpen(false)}
+                className="btn btn-success w-full text-center text-white"
+                to={"/like"}
+              >
+                ❤️
+              </Link>
             </div>
           </div>
         )}
@@ -103,6 +125,8 @@ const App = () => {
         <Route path="/" element={<Products search={search} />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/like" element={<Like />} />
       </Routes>
     </div>
   );
