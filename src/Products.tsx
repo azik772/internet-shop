@@ -118,7 +118,7 @@ const Products = ({ search }: Props) => {
 
     if (!userId) {
       alert("⚠️ Avval tizimga kiring!");
-      return;
+      navigate("/signup")
     }
 
     try {
