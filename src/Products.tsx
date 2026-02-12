@@ -38,14 +38,14 @@ const Products = ({ search }: Props) => {
       }
     }
 
-    // Firebase user
     if (!userId && auth.currentUser) {
       userId = auth.currentUser.uid;
     }
 
     if (!userId) {
       alert("⚠️ Avval tizimga kiring!");
-      return;
+      navigate("/signup")
+
     }
 
     try {
@@ -176,7 +176,7 @@ const Products = ({ search }: Props) => {
             onChange={(e) => setCategory(e.target.value)}
             className="appearance-none bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-xl px-4 py-2.5 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer transition"
           >
-            <option value="">Barcha</option>
+            <option value="">▼ Barcha</option>
             <option value="Mobil qurilma">📱 Mobil Qurilma</option>
             <option value="Kiyim">👕 Kiyim</option>
             <option value="Oziq-Ovqat">🥗 Oziq-Ovqat</option>

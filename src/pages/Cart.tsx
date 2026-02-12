@@ -117,37 +117,45 @@ const Cart = () => {
     );
   }
   return (
-    <div className="min-h-screen bg-gray-50 px-6 py-10">
+    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 py-6 sm:py-10">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">🛒 Savatingiz</h1>
-        {isAdmin && (
-          <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-            👑 ADMIN
-          </span>
-        )}
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            🛒 Savatingiz
+          </h1>
+
+          {isAdmin && (
+            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
+              👑 ADMIN
+            </span>
+          )}
+        </div>
+
         {cartItems.length > 0 ? (
           <>
             <div className="space-y-4">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex gap-4"
+                  className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col sm:flex-row gap-4"
                 >
                   <img
                     src={item.img}
                     alt={item.name}
-                    className="w-24 h-24 object-cover rounded-xl"
+                    className="w-full sm:w-24 h-48 sm:h-24 object-cover rounded-xl"
                   />
 
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                    <h3 className="font-semibold text-gray-800 text-lg sm:text-base">
+                      {item.name}
+                    </h3>
                     <p className="text-sm text-gray-500">{item.category}</p>
                     <p className="text-lg font-bold text-emerald-600 mt-2">
                       ${item.price}
                     </p>
                   </div>
 
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3">
                     <div className="flex items-center gap-3 bg-gray-100 rounded-xl px-3 py-2">
                       <button
                         onClick={() => minus(item.id, item.quantity)}
@@ -155,9 +163,11 @@ const Cart = () => {
                       >
                         −
                       </button>
+
                       <span className="font-semibold text-gray-800 w-8 text-center">
                         {item.quantity}
                       </span>
+
                       <button
                         onClick={() => plus(item.id, item.quantity)}
                         className="w-8 h-8 flex items-center justify-center bg-white rounded-lg hover:bg-gray-200 transition font-bold text-gray-600"
@@ -177,23 +187,28 @@ const Cart = () => {
               ))}
             </div>
 
-            <div className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6">
               <div className="flex justify-between items-center mb-4">
-                <span className="text-lg font-semibold text-gray-700">
+                <span className="text-base sm:text-lg font-semibold text-gray-700">
                   Jami:
                 </span>
-                <span className="text-2xl font-bold text-emerald-600">
+                <span className="text-xl sm:text-2xl font-bold text-emerald-600">
                   ${totalPrice.toFixed(2)}
                 </span>
               </div>
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition">
+
+              <a
+                href="https://t.me/Narzullayev_oo1"
+                target="_blank"
+                className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-decoration-none"
+              >
                 💳 To'lovga o'tish
-              </button>
+              </a>
             </div>
           </>
         ) : (
-          <div className="text-center py-24 text-gray-400">
-            <span className="text-6xl">🛒</span>
+          <div className="text-center py-16 sm:py-24 text-gray-400">
+            <span className="text-5xl sm:text-6xl">🛒</span>
             <p className="text-lg font-medium mt-4">Savatingiz bo'sh</p>
             <p className="text-sm">Mahsulot qo'shing!</p>
           </div>

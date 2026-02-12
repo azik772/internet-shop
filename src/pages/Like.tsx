@@ -197,6 +197,7 @@ const Like = () => {
       console.error("❌ Savatga qo'shishda xatolik:", error);
       alert("Xatolik yuz berdi!");
     }
+    navigate("/cart")
   }
 
   if (!currentUserId) {
