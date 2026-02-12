@@ -28,6 +28,7 @@ const SignIn = () => {
     
   return (
     <div className="w-full max-w-[380px] sm:max-w-[420px] bg-blue-50 rounded-xl p-4 sm:p-6 mx-auto mt-10 shadow">
+      <h1 className="font-bold text-center">Admin uchun!</h1>
       <input
         onChange={(e) => setUser({ ...user, email: e.target.value })}
         placeholder="Email ..."
